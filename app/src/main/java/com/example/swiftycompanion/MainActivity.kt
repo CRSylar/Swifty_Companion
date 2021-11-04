@@ -1,8 +1,13 @@
 package com.example.swiftycompanion
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
@@ -34,18 +39,29 @@ class MainActivity : AppCompatActivity() {
         val btn = findViewById<Button>(R.id.callApiBtn)
         sharedPreferences = getSharedPreferences("42token",MODE_PRIVATE)
 
+        userName.setOnKeyListener(View.OnKeyListener{_, keycode, event ->
+            if (keycode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN){
+                val kboard = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                kboard.hideSoftInputFromWindow(View(this).windowToken, 0)
+                btn.performClick()
+                return@OnKeyListener true
+            }
+            false
+        })
         btn.setOnClickListener { toNewActivity(userName.text.toString()) }
     }
 
     override fun onStart() {
         super.onStart()
         val json = sharedPreferences.getString("42token", "")
-        while (token == null)
+        suspend {
             token =
                 if (json.isNullOrEmpty())
                     tokenManager.getToken()
                 else
                     JSONObject(json).toMap()
+        }
+        Log.d("Porco", token.toString())
     }
 
     override fun onStop() {
@@ -55,9 +71,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun toNewActivity(userName: String) {
-        if (userName.isEmpty())
+        if (userName.isEmpty() || token == null)
             return
-
         val userData = UserData(tokenManager.showRes(userName, token?.get("access_token") as String))
         val intent = Intent(this, UserCardActivity:: class.java)
 
