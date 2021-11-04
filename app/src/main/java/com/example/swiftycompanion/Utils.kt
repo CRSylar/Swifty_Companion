@@ -4,10 +4,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.Serializable
 
-data class UserData(
-    val data: Map<String, *>? = null
-): Serializable
-
 fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {
     when (val value = this[it]) {
         is JSONArray -> {

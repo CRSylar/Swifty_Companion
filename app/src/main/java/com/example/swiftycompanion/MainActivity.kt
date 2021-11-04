@@ -24,19 +24,20 @@ data class Token(
 )
 */
 
+var token: Map<String, *>? = null
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var tokenManager: OauthTokenManager
     private lateinit var sharedPreferences: SharedPreferences
-    private var token : Map<String, *>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        tokenManager = OauthTokenManager(this)
         val userName = findViewById<TextInputEditText>(R.id.searc_box)
         val btn = findViewById<Button>(R.id.callApiBtn)
+        tokenManager = OauthTokenManager(this)
         sharedPreferences = getSharedPreferences("42token",MODE_PRIVATE)
 
         userName.setOnKeyListener(View.OnKeyListener{_, keycode, event ->
@@ -54,14 +55,15 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         val json = sharedPreferences.getString("42token", "")
-        suspend {
-            token =
-                if (json.isNullOrEmpty())
-                    tokenManager.getToken()
-                else
-                    JSONObject(json).toMap()
+        if (json.isNullOrEmpty()){
+            tokenManager.getToken()
         }
-        Log.d("Porco", token.toString())
+        else{
+            Log.d("PorcoElse", json.toString())
+            token = JSONObject(json).toMap()
+        }
+
+        Log.d("PorcoSuper", token.toString())
     }
 
     override fun onStop() {
@@ -73,9 +75,10 @@ class MainActivity : AppCompatActivity() {
     private fun toNewActivity(userName: String) {
         if (userName.isEmpty() || token == null)
             return
-        val userData = UserData(tokenManager.showRes(userName, token?.get("access_token") as String))
+
+        tokenManager.showRes(userName, token?.get("access_token").toString())
         val intent = Intent(this, UserCardActivity:: class.java)
 
-        intent.putExtra("userData", userData)
+        startActivity(intent)
     }
 }
