@@ -46,12 +46,13 @@ class MainActivity : AppCompatActivity() {
 
         val args = "${token["token_type"]} ${token["access_token"]}"
 
-        val req = JsonObjectRequest(Request.Method.GET,
+        val req = object : JsonObjectRequest(Request.Method.GET,
             "$url",
             null,
             Response.Listener<JSONObject>{ response ->
                 try {
-                    res?.text = "Res: $response"
+                    val x = response.toMap()
+                    res?.text = "Res: ${x["email"]}"
                 } catch (e: Exception){
                     textView?.text = "Exception: $e"
                 }
@@ -60,9 +61,8 @@ class MainActivity : AppCompatActivity() {
                 res?.text = "Volley Error: $it"
             })
         {
-            @Throws(AuthFailureError::class)
-            fun getHeaders(): Map<String, String> {
-                val params: MutableMap<String,String> = HashMap()
+            override fun getHeaders(): Map<String, String> {
+                val params: MutableMap<String, String> = HashMap()
                 params["Authorization"] = args
                 //..add other headers
                 return params
