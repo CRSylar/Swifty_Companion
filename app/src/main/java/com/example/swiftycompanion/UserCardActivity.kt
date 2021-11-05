@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 
-var userData: MutableLiveData< Map<String, *> >? = null
 
 class UserCardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

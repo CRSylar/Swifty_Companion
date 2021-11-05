@@ -9,8 +9,24 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import org.json.JSONObject
+import kotlin.properties.Delegates
 
-class OauthTokenManager(val context: Context) {
+interface MyInterface{
+    fun onValueChanged(response: Boolean)
+    fun onValueChanged(newToken: Map<String, *>)
+    fun onUserChanged(newUserData: Map<String, *>)
+}
+
+class OauthTokenManager(val context: Context): MyInterface {
+
+    val myInterface = this
+
+    var validToken: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
+        if (!validToken)
+            getToken()
+    }
+    var userData: Map<String, *> ? = null
+    var token: Map<String, *>? = null
 
     fun getToken() {
         val url = "$uri?grant_type=client_credentials&client_id=$client_id&client_secret=$secret"
@@ -20,7 +36,7 @@ class OauthTokenManager(val context: Context) {
             null,
             { response ->
                 try {
-                    token = JSONObject(response.toString()).toMap()
+                    myInterface.onValueChanged(JSONObject(response.toString()).toMap())
                 } catch (e:Exception){
                     Toast.makeText(context, "Exception: $e", Toast.LENGTH_SHORT).show()
                 }
@@ -35,16 +51,16 @@ class OauthTokenManager(val context: Context) {
 
     }
 
-    fun showRes(userName: String?, access_token: String) {
+    fun showRes(userName: String?) {
         val url = "$searchUri$userName"
-        val args = "$header$access_token"
+        val args = "$header${token?.get("access_token")}"
         val req = object : JsonObjectRequest(
             Method.GET,
             url,
             null,
             Response.Listener { response ->
                 try {
-                    userData = MutableLiveData((response.toMap()))
+                    myInterface.onUserChanged(response.toMap())
                 } catch (e: Exception){
                     Toast.makeText(context, "Exception: $e", Toast.LENGTH_SHORT).show()
                 }
@@ -61,5 +77,44 @@ class OauthTokenManager(val context: Context) {
             }
         }
         MySingleton.getInstance(context).addToRequestQueue(req)
+    }
+
+    fun checkToken() {
+        val args = "$header${token?.get("access_token")}"
+        val req = object : JsonObjectRequest(
+            Method.GET,
+            "$uri/info",
+            null,
+            Response.Listener { _ ->
+                try {
+                    myInterface.onValueChanged(true)
+                } catch (e: Exception){
+                    myInterface.onValueChanged(false)
+                }
+            },
+            Response.ErrorListener {
+                myInterface.onValueChanged(false)
+            })
+        {
+            override fun getHeaders(): Map<String, String> {
+                val params: MutableMap<String, String> = HashMap()
+                params["Authorization"] = args
+                //..add other headers
+                return params
+            }
+        }
+        MySingleton.getInstance(context).addToRequestQueue(req)
+    }
+
+    override fun onValueChanged(response: Boolean) {
+        validToken = response
+    }
+
+    override fun onValueChanged(newToken: Map<String, *>) {
+        token = newToken
+    }
+
+    override fun onUserChanged(newUserData: Map<String, *>) {
+        userData = newUserData
     }
 }

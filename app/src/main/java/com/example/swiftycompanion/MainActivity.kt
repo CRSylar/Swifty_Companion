@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import org.json.JSONObject
+import java.util.*
 
 /* Example of a Token
 data class Token(
@@ -24,7 +25,6 @@ data class Token(
 )
 */
 
-var token: Map<String, *>? = null
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,26 +57,23 @@ class MainActivity : AppCompatActivity() {
         val json = sharedPreferences.getString("42token", "")
         if (json.isNullOrEmpty()){
             tokenManager.getToken()
+            Log.d("Porco", "newTokenFromScratch")
         }
-        else{
-            Log.d("PorcoElse", json.toString())
-            token = JSONObject(json).toMap()
-        }
-
-        Log.d("PorcoSuper", token.toString())
+        else
+            tokenManager.checkToken()
     }
 
     override fun onStop() {
         super.onStop()
-        val gson = Gson().toJson(token)
+        val gson = Gson().toJson(tokenManager.token)
         sharedPreferences.edit().putString("42token", gson).apply()
     }
 
     private fun toNewActivity(userName: String) {
-        if (userName.isEmpty() || token == null)
+        if (userName.isEmpty() || tokenManager.token == null)
             return
 
-        tokenManager.showRes(userName, token?.get("access_token").toString())
+        tokenManager.showRes(userName)
         val intent = Intent(this, UserCardActivity:: class.java)
 
         startActivity(intent)
