@@ -8,7 +8,11 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.RequestFuture
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
+import java.io.Serializable
 import kotlin.properties.Delegates
 
 interface MyInterface{
@@ -19,11 +23,14 @@ interface MyInterface{
 
 class OauthTokenManager(val context: Context): MyInterface {
 
+
     val myInterface = this
 
     var validToken: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
-        if (!validToken)
+        if (!validToken){
             getToken()
+            validToken = true
+        }
     }
     var userData: Map<String, *> ? = null
     var token: Map<String, *>? = null
@@ -48,7 +55,6 @@ class OauthTokenManager(val context: Context): MyInterface {
             DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, 1f
         )
         MySingleton.getInstance(context).addToRequestQueue(req)
-
     }
 
     fun showRes(userName: String?) {
@@ -116,5 +122,6 @@ class OauthTokenManager(val context: Context): MyInterface {
 
     override fun onUserChanged(newUserData: Map<String, *>) {
         userData = newUserData
+        g_userData = userData
     }
 }

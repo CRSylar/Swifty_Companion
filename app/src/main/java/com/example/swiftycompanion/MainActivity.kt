@@ -12,7 +12,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
-import org.json.JSONObject
+import kotlinx.coroutines.*
 import java.util.*
 
 /* Example of a Token
@@ -26,7 +26,7 @@ data class Token(
 */
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var tokenManager: OauthTokenManager
     private lateinit var sharedPreferences: SharedPreferences
@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
         val json = sharedPreferences.getString("42token", "")
         if (json.isNullOrEmpty()){
             tokenManager.getToken()
-            Log.d("Porco", "newTokenFromScratch")
         }
         else
             tokenManager.checkToken()
@@ -74,8 +73,8 @@ class MainActivity : AppCompatActivity() {
             return
 
         tokenManager.showRes(userName)
-        val intent = Intent(this, UserCardActivity:: class.java)
-
+        val intent = Intent(this@MainActivity, UserCardActivity:: class.java)
+        intent.putExtra("tokenManager", "")
         startActivity(intent)
     }
 }
