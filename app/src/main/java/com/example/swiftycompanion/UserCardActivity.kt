@@ -36,6 +36,9 @@ class UserCardActivity : AppCompatActivity() {
                     .load(g_userData!!["image_url"])
                     .into(binding.proPic)
                 binding.userDataText.text = g_userData.toString()
+                binding.fullName.text = g_userData!!["usual_full_name"].toString()
+                
+                //binding.level.text = (g_userData!!["cursus_users"[1]["level"]]).toString()
             }
         })
     }
