@@ -23,7 +23,6 @@ interface MyInterface{
 
 class OauthTokenManager(val context: Context): MyInterface {
 
-
     val myInterface = this
 
     var validToken: Boolean by Delegates.observable(false) { property, oldValue, newValue ->
@@ -32,7 +31,6 @@ class OauthTokenManager(val context: Context): MyInterface {
             validToken = true
         }
     }
-    var userData: Map<String, *> ? = null
     var token: Map<String, *>? = null
 
     fun getToken() {
@@ -66,6 +64,7 @@ class OauthTokenManager(val context: Context): MyInterface {
             null,
             Response.Listener { response ->
                 try {
+                    Log.d("Listener", response.toString())
                     myInterface.onUserChanged(response.toMap())
                 } catch (e: Exception){
                     Toast.makeText(context, "Exception: $e", Toast.LENGTH_SHORT).show()
@@ -73,6 +72,7 @@ class OauthTokenManager(val context: Context): MyInterface {
                               },
             Response.ErrorListener{
                 Toast.makeText(context, "Volley Error: $it", Toast.LENGTH_SHORT).show()
+                listen.value = true
             })
         {
             override fun getHeaders(): Map<String, String> {
@@ -121,7 +121,7 @@ class OauthTokenManager(val context: Context): MyInterface {
     }
 
     override fun onUserChanged(newUserData: Map<String, *>) {
-        userData = newUserData
-        g_userData = userData
+        g_userData = newUserData
+        listen.value = true
     }
 }

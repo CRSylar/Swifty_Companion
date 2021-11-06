@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity(){
         }
         else
             tokenManager.checkToken()
+        listen.value = false
     }
 
     override fun onStop() {
@@ -73,8 +74,8 @@ class MainActivity : AppCompatActivity(){
             return
 
         tokenManager.showRes(userName)
+
         val intent = Intent(this@MainActivity, UserCardActivity:: class.java)
-        intent.putExtra("tokenManager", "")
         startActivity(intent)
     }
 }
