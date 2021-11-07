@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity(){
         }
         else
             tokenManager.checkToken()
-        listen.value = false
     }
 
     override fun onStop() {

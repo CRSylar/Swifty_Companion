@@ -1,24 +1,20 @@
 package com.example.swiftycompanion
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.RequestFuture
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import com.example.swiftycompanion.data.UserInfo
+import com.google.gson.Gson
 import org.json.JSONObject
-import java.io.Serializable
 import kotlin.properties.Delegates
 
 interface MyInterface{
     fun onValueChanged(response: Boolean)
     fun onValueChanged(newToken: Map<String, *>)
-    fun onUserChanged(newUserData: Map<String, *>)
+    fun onUserChanged(newUserData: JSONObject)
 }
 
 class OauthTokenManager(val context: Context): MyInterface {
@@ -64,8 +60,7 @@ class OauthTokenManager(val context: Context): MyInterface {
             null,
             Response.Listener { response ->
                 try {
-                    Log.d("Listener", response.toString())
-                    myInterface.onUserChanged(response.toMap())
+                    myInterface.onUserChanged(response)
                 } catch (e: Exception){
                     Toast.makeText(context, "Exception: $e", Toast.LENGTH_SHORT).show()
                 }
@@ -120,8 +115,9 @@ class OauthTokenManager(val context: Context): MyInterface {
         token = newToken
     }
 
-    override fun onUserChanged(newUserData: Map<String, *>) {
-        g_userData = newUserData
+    override fun onUserChanged(newUserData: JSONObject) {
+        g_userData = newUserData.toMap()
+        //userInfo = Gson().fromJson(newUserData.toString(), UserInfo::class.java)
         listen.value = true
     }
 }

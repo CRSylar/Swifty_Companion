@@ -10,10 +10,12 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.example.swiftycompanion.data.UserInfo
 import com.example.swiftycompanion.databinding.ActivityUserCardBinding
 import org.json.JSONObject
 
 var g_userData: Map<String, *> ? = null
+var userInfo: UserInfo? = null
 var listen = MutableLiveData<Boolean>(false)
 
 class UserCardActivity : AppCompatActivity() {
@@ -31,14 +33,16 @@ class UserCardActivity : AppCompatActivity() {
                     Toast.makeText(this, "User Not Found!", Toast.LENGTH_LONG).show()
                     finish()
                 }
-                Glide
-                    .with(this)
-                    .load(g_userData!!["image_url"])
-                    .into(binding.proPic)
-                binding.userDataText.text = g_userData.toString()
-                binding.fullName.text = g_userData!!["usual_full_name"].toString()
-                
-                //binding.level.text = (g_userData!!["cursus_users"[1]["level"]]).toString()
+                else {
+                    Glide
+                        .with(this)
+                        .load(g_userData!!["image_url"])
+                        .into(binding.proPic)
+                    binding.userDataText.text = g_userData.toString()
+                    binding.fullName.text = g_userData!!["usual_full_name"].toString()
+                //binding.level.text = userInfo?.cursusUser?.get(1)?.level.toString()
+               // Log.d("Porco", userInfo.toString())
+                }
             }
         })
     }
