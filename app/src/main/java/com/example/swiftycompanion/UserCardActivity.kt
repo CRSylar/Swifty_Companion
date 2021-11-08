@@ -34,8 +34,21 @@ class UserCardActivity : AppCompatActivity() {
                         .load(g_userData?.imageUrl)
                         .into(binding.proPic)
                     binding.fullName.text = g_userData?.usualFullName
+
+                    binding.wallet.append(" ${g_userData?.wallet.toString()}")
+                    binding.evaluationPoint.append(" ${g_userData?.correctionPoint.toString()}")
+                    binding.progressHorizontal.progress = calcProgessionLevel()
                 }
             }
         })
+    }
+
+    private fun calcProgessionLevel(): Int {
+        val levelDb = g_userData?.cursusUsers?.get(1)?.level
+
+        if (levelDb != null) {
+            return ((levelDb - levelDb.toInt()) * 100).toInt()
+        }
+        return 0
     }
 }

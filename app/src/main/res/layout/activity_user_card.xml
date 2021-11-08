@@ -53,13 +53,41 @@
                             android:minHeight="48dp"
                             android:textColor="@color/white"
                             android:textSize="20sp" />
-                        <TextView
-                            android:id="@+id/level"
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:minHeight="48dp"
-                            android:textColor="@color/white"
-                            android:textSize="20sp" />
+                            android:orientation="horizontal"
+                            android:layout_marginTop="15dp" >
+
+                            <TextView
+                                android:id="@+id/evaluation_point"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:minHeight="48dp"
+                                android:text="@string/eval_points"
+                                android:textColor="@color/teal_200"
+                                />
+                            <TextView
+                                android:id="@+id/wallet"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:minHeight="48dp"
+                                android:text="@string/Wallet"
+                                android:textColor="@color/teal_200"
+                                android:layout_marginStart="50dp"
+                                />
+                        </LinearLayout>
+
+                        <ProgressBar
+                            android:id="@+id/progress_horizontal"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:progressTint="@color/teal_200"
+                            android:progress="0"
+                            android:padding="15dp" />
+                        
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

@@ -3,4 +3,6 @@
     <string name="search">Search</string>
     <string name="user_name">User Name</string>
     <string name="user_image">User_image</string>
+    <string name="Wallet">Wallet: </string>
+    <string name="eval_points">Eval. Points: </string>
 </resources>
