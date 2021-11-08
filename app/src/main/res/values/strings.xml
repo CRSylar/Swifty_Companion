@@ -5,4 +5,6 @@
     <string name="user_image">User_image</string>
     <string name="Wallet">Wallet: </string>
     <string name="eval_points">Eval. Points: </string>
+    <string name="level">Level:</string>
+    <string name="usercard">userCard</string>
 </resources>

@@ -35,9 +35,11 @@ class UserCardActivity : AppCompatActivity() {
                         .into(binding.proPic)
                     binding.fullName.text = g_userData?.usualFullName
 
-                    binding.wallet.append(" ${g_userData?.wallet.toString()}")
-                    binding.evaluationPoint.append(" ${g_userData?.correctionPoint.toString()}")
+                    binding.wallet.text = ("Wallet: ${g_userData?.wallet.toString()}")
+                    binding.evaluationPoint.text = ("Eval.Points: ${g_userData?.correctionPoint.toString()}")
+                    binding.level.text = ("Level: ${g_userData?.cursusUsers?.get(1)?.level?.toInt().toString()}")
                     binding.progressHorizontal.progress = calcProgessionLevel()
+                    binding.idIntra.text = g_userData?.login
                 }
             }
         })
