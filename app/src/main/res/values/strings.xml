@@ -7,4 +7,8 @@
     <string name="eval_points">Eval. Points: </string>
     <string name="level">Level:</string>
     <string name="usercard">userCard</string>
+    <string name="cursus">Cursus</string>
+    <string name="projects">Projects</string>
+    <string name="achievements">Achievements</string>
+    <string name="skills">Skills</string>
 </resources>

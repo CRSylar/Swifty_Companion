@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.swiftycompanion.data.UserInfo
 import com.example.swiftycompanion.databinding.ActivityUserCardBinding
+import com.google.android.material.tabs.TabLayout
 
 var g_userData: UserInfo? = null
 var listen = MutableLiveData<Boolean>(false)
@@ -21,6 +23,7 @@ class UserCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         listen.observe(this, {
             if (listen.value == true) {
@@ -44,6 +47,7 @@ class UserCardActivity : AppCompatActivity() {
             }
         })
     }
+
 
     private fun calcProgessionLevel(): Int {
         val levelDb = g_userData?.cursusUsers?.get(1)?.level
