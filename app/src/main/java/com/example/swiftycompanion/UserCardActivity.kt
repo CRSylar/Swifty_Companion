@@ -1,21 +1,16 @@
 package com.example.swiftycompanion
 
-import android.graphics.Bitmap
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.swiftycompanion.data.UserInfo
 import com.example.swiftycompanion.databinding.ActivityUserCardBinding
-import org.json.JSONObject
 
-var g_userData: Map<String, *> ? = null
-var userInfo: UserInfo? = null
+var g_userData: UserInfo? = null
 var listen = MutableLiveData<Boolean>(false)
 
 class UserCardActivity : AppCompatActivity() {
@@ -27,7 +22,7 @@ class UserCardActivity : AppCompatActivity() {
         binding = ActivityUserCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        listen.observe(this, Observer {
+        listen.observe(this, {
             if (listen.value == true) {
                 if (g_userData == null) {
                     Toast.makeText(this, "User Not Found!", Toast.LENGTH_LONG).show()
@@ -36,12 +31,9 @@ class UserCardActivity : AppCompatActivity() {
                 else {
                     Glide
                         .with(this)
-                        .load(g_userData!!["image_url"])
+                        .load(g_userData?.imageUrl)
                         .into(binding.proPic)
-                    binding.userDataText.text = g_userData.toString()
-                    binding.fullName.text = g_userData!!["usual_full_name"].toString()
-                //binding.level.text = userInfo?.cursusUser?.get(1)?.level.toString()
-               // Log.d("Porco", userInfo.toString())
+                    binding.fullName.text = g_userData?.usualFullName
                 }
             }
         })

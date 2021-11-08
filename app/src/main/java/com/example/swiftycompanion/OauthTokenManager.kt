@@ -1,6 +1,7 @@
 package com.example.swiftycompanion
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
@@ -116,8 +117,7 @@ class OauthTokenManager(val context: Context): MyInterface {
     }
 
     override fun onUserChanged(newUserData: JSONObject) {
-        g_userData = newUserData.toMap()
-        //userInfo = Gson().fromJson(newUserData.toString(), UserInfo::class.java)
+        g_userData = Gson().fromJson(newUserData.toString(), UserInfo::class.java)
         listen.value = true
     }
 }
