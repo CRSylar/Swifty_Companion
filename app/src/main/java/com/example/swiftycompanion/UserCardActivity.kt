@@ -34,7 +34,7 @@ class UserCardActivity : AppCompatActivity() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-
+                viewPager.currentItem = null
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {

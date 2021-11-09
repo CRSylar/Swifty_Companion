@@ -27,6 +27,6 @@ data class ProjectsUser(
     val status: String,
     @SerializedName("updated_at")
     val updatedAt: String,
-    @SerializedName("validated")
+    @SerializedName("validated?")
     val validated: Boolean?
 )
