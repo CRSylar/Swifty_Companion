@@ -2,12 +2,11 @@ package com.example.swiftycompanion
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import androidx.core.view.get
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.example.swiftycompanion.adapter.TabAdapter
 import com.example.swiftycompanion.data.UserInfo
 import com.example.swiftycompanion.databinding.ActivityUserCardBinding
 import com.google.android.material.tabs.TabLayout
@@ -24,6 +23,22 @@ class UserCardActivity : AppCompatActivity() {
         binding = ActivityUserCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val viewPager = binding.viewPager
+        viewPager.adapter = TabAdapter(this, supportFragmentManager, lifecycle)
+
+        binding.tabLayout.addOnTabSelectedListener( object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                viewPager.currentItem = tab.position
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                viewPager.currentItem = tab.position
+            }
+        })
 
         listen.observe(this, {
             if (listen.value == true) {

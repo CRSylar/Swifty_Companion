@@ -8,6 +8,10 @@
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.3212962962962963" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_user_card.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_achievement.xml" value="0.2201114488348531" />
+        <entry key="app/src/main/res/layout/fragment_cursus.xml" value="0.2201114488348531" />
+        <entry key="app/src/main/res/layout/fragment_projects.xml" value="0.2201114488348531" />
+        <entry key="app/src/main/res/layout/fragment_skill.xml" value="0.2201114488348531" />
       </map>
     </option>
   </component>
