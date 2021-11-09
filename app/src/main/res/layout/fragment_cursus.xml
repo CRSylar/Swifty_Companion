@@ -6,10 +6,24 @@
     tools:context=".CursusFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="CursusFrag" />
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_piscine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/piscine"
+            android:onClick="onRadioButtonClicked" />
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/radio_cursus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cursus"
+            android:checked="true"
+            android:onClick="onRadioButtonClicked" />
+    </RadioGroup>
 
 </FrameLayout>

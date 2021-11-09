@@ -2,6 +2,8 @@ package com.example.swiftycompanion
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.viewpager2.widget.ViewPager2
@@ -47,29 +49,71 @@ class UserCardActivity : AppCompatActivity() {
                     finish()
                 }
                 else {
-                    Glide
-                        .with(this)
-                        .load(g_userData?.imageUrl)
-                        .into(binding.proPic)
-                    binding.fullName.text = g_userData?.usualFullName
-
-                    binding.wallet.text = ("Wallet: ${g_userData?.wallet.toString()}")
-                    binding.evaluationPoint.text = ("Eval.Points: ${g_userData?.correctionPoint.toString()}")
-                    binding.level.text = ("Level: ${g_userData?.cursusUsers?.get(1)?.level?.toInt().toString()}")
-                    binding.progressHorizontal.progress = calcProgessionLevel()
-                    binding.idIntra.text = g_userData?.login
+                    if (CURSUS == 1)
+                        displayCursus()
+                    else
+                        displayPiscine()
                 }
             }
         })
     }
 
+    private fun displayPiscine() {
+        Glide
+            .with(this)
+            .load(g_userData?.imageUrl)
+            .into(binding.proPic)
+        binding.fullName.text = g_userData?.usualFullName
+
+        binding.wallet.text = ("Wallet: ${g_userData?.wallet.toString()}")
+        binding.evaluationPoint.text = ("Eval.Points: ${g_userData?.correctionPoint.toString()}")
+        binding.level.text = ("Level: ${g_userData?.cursusUsers?.get(0)?.level?.toInt().toString()}")
+        binding.progressHorizontal.progress = calcProgessionLevel()
+        binding.idIntra.text = g_userData?.login
+    }
+
+    private fun displayCursus() {
+        Glide
+            .with(this)
+            .load(g_userData?.imageUrl)
+            .into(binding.proPic)
+        binding.fullName.text = g_userData?.usualFullName
+
+        binding.wallet.text = ("Wallet: ${g_userData?.wallet.toString()}")
+        binding.evaluationPoint.text = ("Eval.Points: ${g_userData?.correctionPoint.toString()}")
+        binding.level.text = ("Level: ${g_userData?.cursusUsers?.get(1)?.level?.toInt().toString()}")
+        binding.progressHorizontal.progress = calcProgessionLevel()
+        binding.idIntra.text = g_userData?.login
+    }
+
 
     private fun calcProgessionLevel(): Int {
-        val levelDb = g_userData?.cursusUsers?.get(1)?.level
+        val levelDb =
+            if (CURSUS == 1)
+                g_userData?.cursusUsers?.get(1)?.level
+            else
+                g_userData?.cursusUsers?.get(0)?.level
 
         if (levelDb != null) {
             return ((levelDb - levelDb.toInt()) * 100).toInt()
         }
         return 0
+    }
+
+    fun onRadioButtonClicked(view: View) {
+        if (view is RadioButton) {
+            val checked = view.isChecked
+
+            when(view.id) {
+                R.id.radio_cursus -> if (checked){
+                    CURSUS = 1
+                    listen.value = true
+                }
+                R.id.radio_piscine -> if (checked){
+                    CURSUS = 0
+                    listen.value = true
+                }
+            }
+        }
     }
 }

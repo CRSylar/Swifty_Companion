@@ -7,3 +7,4 @@ val searchUri: String = "https://api.intra.42.fr/v2/users/"
 val header: String = "Bearer "
 val intraUrl: String = "https://profile.intra.42.fr/"
 const val NUM_TABS: Int = 4
+var CURSUS = 1
