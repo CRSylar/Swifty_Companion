@@ -2,6 +2,7 @@ package com.example.swiftycompanion
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
@@ -34,7 +35,6 @@ class UserCardActivity : AppCompatActivity() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                viewPager.currentItem = null
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {

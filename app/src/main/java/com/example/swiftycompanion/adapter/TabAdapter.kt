@@ -16,11 +16,11 @@ class TabAdapter(
     override fun getItemCount(): Int = NUM_TABS
 
     override fun createFragment(position: Int): Fragment {
-        when (position) {
-            0 -> return CursusFragment()
-            1 -> return ProjectsFragment()
-            2 -> return AchievementFragment()
-            else -> return SkillFragment()
+        return when (position) {
+            0 -> CursusFragment()
+            1 -> ProjectsFragment()
+            2 -> AchievementFragment()
+            else -> SkillFragment()
         }
     }
 }

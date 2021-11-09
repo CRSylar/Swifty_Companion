@@ -25,12 +25,10 @@ class ProjectAdapter() : RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>(
         val adapterLayout = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_project, parent, false)
 
-        Log.d("Porco", "onCreateViewHolder" )
         return ProjectViewHolder(adapterLayout)
     }
 
     override fun onBindViewHolder(holder: ProjectViewHolder, position: Int) {
-        Log.d("Porco", "onBindViewHolder" )
         val item = if (CURSUS == 1)
             g_userData?.projectsUsers?.filter { !it.project.slug.startsWith("c-piscine") }
         else
@@ -46,6 +44,7 @@ class ProjectAdapter() : RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>(
             itemSize = item.size
         }
     }
+
 
     override fun getItemCount(): Int {
         val item = if (CURSUS == 1)
