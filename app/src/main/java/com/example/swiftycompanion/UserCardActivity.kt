@@ -3,6 +3,7 @@ package com.example.swiftycompanion
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
@@ -25,6 +26,9 @@ class UserCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val viewPager = binding.viewPager
         viewPager.adapter = TabAdapter(this, supportFragmentManager, lifecycle)
@@ -56,6 +60,13 @@ class UserCardActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home)
+            onBackPressed()
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun displayPiscine() {
