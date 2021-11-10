@@ -1,6 +1,7 @@
 package com.example.swiftycompanion.adapter
 
-import android.graphics.Color
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.example.swiftycompanion.R
 import com.example.swiftycompanion.g_userData
 import com.example.swiftycompanion.intraUrl
+
 
 class AchievementAdapter(): RecyclerView.Adapter<AchievementAdapter.AchievementViewHolder>() {
 
@@ -29,32 +32,47 @@ class AchievementAdapter(): RecyclerView.Adapter<AchievementAdapter.AchievementV
         return AchievementViewHolder(adapterLayout)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: AchievementViewHolder, position: Int) {
-        //val item = g_userData?.achievements?.reversed()?.toSet()?.toList()
         val item = g_userData?.achievements?.groupBy { it.name }?.map { it.value.last() }
         if (item != null){
             val tmp = item[position]
             holder.name.text = tmp.name
             holder.subTitle.text = tmp.description
-            Glide
-                .with(holder.view.context)
-                .load("$intraUrl${tmp.image}")
-                .into(holder.img)
-            holder.backgroud.setBackgroundColor(
+            holder.img.loadUrl("$intraUrl${tmp.image}")
+//            Glide
+//                .with(holder.view.context)
+//                .load("$intraUrl${tmp.image}")
+//                .into(holder.img)
+            holder.backgroud.background =
                 when(tmp.tier) {
-                    "easy" -> Color.rgb(141, 91, 45)
-                    "medium" -> Color.rgb(203, 212, 214)
-                    "hard" -> Color.rgb(185, 174, 110)
-                    else -> Color.WHITE
-                }
-            )
+                    "easy" -> holder.view.context.resources.getDrawable(R.drawable.border_bronze, null)
+                    "medium" -> holder.view.context.resources.getDrawable(R.drawable.border_silver, null)
+                    "hard" -> holder.view.context.resources.getDrawable(R.drawable.border_gold, null)
+                else -> holder.view.context.resources.getDrawable(R.drawable.border_white, null)
+            }
         }
     }
 
     override fun getItemCount(): Int {
-        //val item = g_userData?.achievements?.reversed()?.toSet()?.toList()
         val item = g_userData?.achievements?.groupBy { it.name }?.map { it.value.last() }
         return item?.size ?: 0
     }
 
+}
+
+private fun ImageView.loadUrl(url: String) {
+
+    val imageLoader = coil.ImageLoader.Builder(this.context)
+        .componentRegistry { add(SvgDecoder(this@loadUrl.context)) }
+        .build()
+
+    val req = ImageRequest.Builder(this.context)
+        .crossfade(true)
+        .crossfade(500)
+        .data(url)
+        .target(this)
+        .build()
+
+    imageLoader.enqueue(req)
 }

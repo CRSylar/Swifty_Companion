@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:showDividers="middle"
-    android:background="@drawable/border"
     android:padding="10dp">
 
     <LinearLayout
@@ -33,10 +32,10 @@
             android:textStyle="italic" />
     </LinearLayout>
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/achievement_img"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
 </LinearLayout>
