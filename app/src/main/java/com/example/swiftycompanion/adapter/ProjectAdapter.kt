@@ -1,7 +1,6 @@
 package com.example.swiftycompanion.adapter
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swiftycompanion.CURSUS
 import com.example.swiftycompanion.R
-import com.example.swiftycompanion.data.ProjectsUser
 import com.example.swiftycompanion.g_userData
 
 class ProjectAdapter() : RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>() {
-
-    private var itemSize: Int = 0
 
     class ProjectViewHolder(val view: View) : RecyclerView.ViewHolder(view){
         val title: TextView = view.findViewById<TextView>(R.id.title)
@@ -39,9 +35,15 @@ class ProjectAdapter() : RecyclerView.Adapter<ProjectAdapter.ProjectViewHolder>(
             if (temp.status == "finished") {
                 if (temp.validated == false)
                     holder.vote.setTextColor(Color.RED)
+                else
+                    holder.vote.setTextColor(Color.GREEN)
                 holder.vote.text = temp.finalMark.toString()
             }
-            itemSize = item.size
+            else
+            {
+                holder.vote.setTextColor(Color.GRAY)
+                holder.vote.text = holder.view.context.getString(R.string.projectOnGoing)
+            }
         }
     }
 

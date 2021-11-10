@@ -23,32 +23,16 @@ class ProjectsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_projects, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        Log.d("Porco", "ViewCreated")
-        recyclerView = view.findViewById<RecyclerView>(R.id.project_rec_view)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = ProjectAdapter()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d("Porco", "Start")
-    }
-
     override fun onResume() {
         super.onResume()
 
-        Log.d("Porco", "Resume")
         recyclerView = requireView().findViewById<RecyclerView>(R.id.project_rec_view)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = ProjectAdapter()
-
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("Porco", "Pause")
+        recyclerView.adapter = null
     }
 }
