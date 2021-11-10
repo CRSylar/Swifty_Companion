@@ -15,17 +15,6 @@ import com.google.gson.Gson
 import kotlinx.coroutines.*
 import java.util.*
 
-/* Example of a Token
-data class Token(
-    val access_token : String,
-    val token_type: String,
-    val expires_in: String,
-    val scope: String,
-    val created_at: String
-)
-*/
-
-
 class MainActivity : AppCompatActivity(){
 
     private lateinit var tokenManager: OauthTokenManager

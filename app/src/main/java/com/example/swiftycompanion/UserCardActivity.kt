@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.swiftycompanion.adapter.TabAdapter
@@ -21,6 +22,7 @@ var listen = MutableLiveData<Boolean>(false)
 class UserCardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUserCardBinding
+    private lateinit var mTabLayout: TabLayout.OnTabSelectedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +35,7 @@ class UserCardActivity : AppCompatActivity() {
         val viewPager = binding.viewPager
         viewPager.adapter = TabAdapter(this, supportFragmentManager, lifecycle)
 
-        binding.tabLayout.addOnTabSelectedListener( object : TabLayout.OnTabSelectedListener{
+        mTabLayout = object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab) {
                 viewPager.currentItem = tab.position
             }
@@ -44,7 +46,9 @@ class UserCardActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab) {
                 viewPager.currentItem = tab.position
             }
-        })
+        }
+
+        binding.tabLayout.addOnTabSelectedListener(mTabLayout)
 
         listen.observe(this, {
             if (listen.value == true) {
@@ -60,6 +64,14 @@ class UserCardActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        binding.tabLayout.removeOnTabSelectedListener(mTabLayout)
+        g_userData = null
+        listen.value = false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
