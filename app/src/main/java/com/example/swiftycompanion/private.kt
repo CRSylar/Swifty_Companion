@@ -5,6 +5,6 @@ val secret: String = "e249c191bf0551c1c5c0ff0b2e54181d50045d56941cc21d31fcf27932
 val uri : String = "https://api.intra.42.fr/oauth/token"
 val searchUri: String = "https://api.intra.42.fr/v2/users/"
 val header: String = "Bearer "
-val intraUrl: String = "https://profile.intra.42.fr/"
+val intraUrl: String = "https://profile.intra.42.fr"
 const val NUM_TABS: Int = 4
 var CURSUS = 1

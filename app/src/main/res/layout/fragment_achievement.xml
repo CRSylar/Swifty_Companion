@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".AchievementFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/achievement_rec_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:text="Achievemtns_fragment" />
+        android:scrollbars="vertical" />
 
 </FrameLayout>
