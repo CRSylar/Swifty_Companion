@@ -27,29 +27,6 @@ class UserCardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUserCardBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        val viewPager = binding.viewPager
-        viewPager.adapter = TabAdapter(this, supportFragmentManager, lifecycle)
-
-        mTabLayout = object : TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                viewPager.currentItem = tab.position
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab) {
-                viewPager.currentItem = tab.position
-            }
-        }
-
-        binding.tabLayout.addOnTabSelectedListener(mTabLayout)
-
         listen.observe(this, {
             if (listen.value == true) {
                 if (g_userData == null) {
@@ -64,6 +41,27 @@ class UserCardActivity : AppCompatActivity() {
                 }
             }
         })
+        
+        setContentView(binding.root)
+
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val viewPager = binding.viewPager
+        viewPager.adapter = TabAdapter(this, supportFragmentManager, lifecycle)
+        mTabLayout = object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                viewPager.currentItem = tab.position
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                viewPager.currentItem = tab.position
+            }
+        }
+        binding.tabLayout.addOnTabSelectedListener(mTabLayout)
     }
 
     override fun onStop() {

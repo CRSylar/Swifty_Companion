@@ -40,11 +40,11 @@ class OauthTokenManager(val context: Context): MyInterface {
                 try {
                     myInterface.onValueChanged(JSONObject(response.toString()).toMap())
                 } catch (e:Exception){
-                    Toast.makeText(context, "Exception: $e", Toast.LENGTH_SHORT).show()
+                    Log.d("DEBUG", "Exception: $e")
                 }
             },
             {
-                Toast.makeText(context, "Volley Error: $it", Toast.LENGTH_SHORT).show()
+                Log.d("DEBUG", "Volley Error: $it")
             })
         req.retryPolicy = DefaultRetryPolicy(
             DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, 1f
@@ -63,11 +63,11 @@ class OauthTokenManager(val context: Context): MyInterface {
                 try {
                     myInterface.onUserChanged(response)
                 } catch (e: Exception){
-                    Toast.makeText(context, "Exception: $e", Toast.LENGTH_SHORT).show()
+                    Log.d("DEBUG", "Exception: $e")
                 }
                               },
             Response.ErrorListener{
-                Toast.makeText(context, "Volley Error: $it", Toast.LENGTH_SHORT).show()
+                Log.d("DEBUG", "Volley Error: $it")
                 listen.value = true
             })
         {
