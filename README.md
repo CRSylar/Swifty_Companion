@@ -1,7 +1,8 @@
 # Swifty_Companion
 Project of Android dev Branch at 42Rome
 
-![Cromalde's 42Project Score](https://badge42.herokuapp.com/api/project/cromalde/swifty-companion)
+[![cromalde's 42 swifty-companion Score](https://badge42.vercel.app/api/v2/cl1z1axw3001109mox1m22pjp/project/2395595)](https://github.com/JaeSeoKim/badge42)
+
 
 [SubjectPdf](https://cdn.intra.42.fr/pdf/pdf/23559/en.subject.pdf)
 
